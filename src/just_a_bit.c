@@ -4,7 +4,8 @@
 #define CIRCLE_LINE_THICKNESS 2
 #define CIRCLE_PADDING 14 - CIRCLE_RADIUS
 #define CELL_SIZE (2 * (CIRCLE_RADIUS + CIRCLE_PADDING))
-#define SIDE_PADDING (144 - (4 * CELL_SIZE)) / 2
+#define SIDE_PADDING (PBL_IF_ROUND_ELSE(180, 144) - (4 * CELL_SIZE)) / 2
+#define TOP_PADDING PBL_IF_ROUND_ELSE(4, 0)
 
 #define CELLS_PER_ROW 4
 #define CELLS_PER_COLUMN 6
@@ -35,7 +36,7 @@ static void draw_cell(GContext *ctx, GPoint center, bool filled) {
 }
 
 static GPoint get_center_point_from_cell_location(unsigned short x, unsigned short y) {
-  return GPoint(SIDE_PADDING + (CELL_SIZE / 2) + (CELL_SIZE * x), (CELL_SIZE / 2) + (CELL_SIZE * y));
+  return GPoint(SIDE_PADDING + (CELL_SIZE / 2) + (CELL_SIZE * x), TOP_PADDING + (CELL_SIZE / 2) + (CELL_SIZE * y));
 }
 
 static void draw_cell_row_for_digit(GContext *ctx, unsigned short digit, unsigned short max_columns_to_display, unsigned short cell_row) {
@@ -53,7 +54,6 @@ static unsigned short get_display_hour(unsigned short hour) {
   }
 
   unsigned short display_hour = hour % 12;
-
   return display_hour ? display_hour : 12;
 }
 
